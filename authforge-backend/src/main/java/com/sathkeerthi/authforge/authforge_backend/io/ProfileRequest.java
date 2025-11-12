@@ -1,0 +1,16 @@
+package com.sathkeerthi.authforge.authforge_backend.io;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProfileRequest {
+    private String name;
+    private String email;
+    private String password;
+}
