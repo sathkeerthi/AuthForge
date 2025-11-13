@@ -5,22 +5,32 @@ import com.sathkeerthi.authforge.authforge_backend.io.ProfileRequest;
 import com.sathkeerthi.authforge.authforge_backend.io.ProfileResponse;
 import com.sathkeerthi.authforge.authforge_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileSericeImpl implements ProfileService{
+public class ProfileServiceImpl implements ProfileService{
 
     private final UserRepository userRepository;
 
 
     @Override
     public ProfileResponse createProfile(ProfileRequest request) {
-        UserEntity newProfile = convertToUserEntity(request);
-        newProfile = userRepository.save(newProfile);
-        return convertToProfileResponse(newProfile);
+            UserEntity newProfile = convertToUserEntity(request);
+            if (!existsByEmail(request.getEmail())){
+            newProfile = userRepository.save(newProfile);
+            return convertToProfileResponse(newProfile);
+        }
+
+        else throw new ResponseStatusException(HttpStatus.CONFLICT, "The email already exists");
+    }
+
+    private Boolean existsByEmail(String email) {
+
     }
 
     private ProfileResponse convertToProfileResponse(UserEntity newProfile) {
