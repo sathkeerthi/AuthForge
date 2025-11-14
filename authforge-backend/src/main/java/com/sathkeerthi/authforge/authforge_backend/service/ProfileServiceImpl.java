@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     private Boolean existsByEmail(String email) {
-
+        return userRepository.existsByEmail(email);
     }
 
     private ProfileResponse convertToProfileResponse(UserEntity newProfile) {
